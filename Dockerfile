@@ -19,7 +19,7 @@ RUN curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/dow
     chmod +x /usr/local/bin/gosu
 
 
-ENV ELASTICSEARCH_VERSION 5.0.1
+ENV ELASTICSEARCH_VERSION 5.0.2
 ENV ELASTICSEARCH_DOWNLOAD_URL https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ELASTICSEARCH_VERSION.tar.gz
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
