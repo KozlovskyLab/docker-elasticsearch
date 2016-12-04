@@ -2,7 +2,7 @@ FROM debian:testing
 MAINTAINER Vladimir Kozlovski <inbox@vladkozlovski.com>
 ENV DEBIAN_FRONTEND noninteractive
 
-ENV BUILD_DEPENDENCIES curl
+ENV BUILD_DEPENDENCIES curl gnupg dirmngr
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends $BUILD_DEPENDENCIES \
@@ -19,7 +19,7 @@ RUN curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/dow
     chmod +x /usr/local/bin/gosu
 
 
-ENV ELASTICSEARCH_VERSION 2.3.2
+ENV ELASTICSEARCH_VERSION 2.3.3
 ENV ELASTICSEARCH_DOWNLOAD_URL https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-$ELASTICSEARCH_VERSION.tar.gz
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
