@@ -1,5 +1,5 @@
 FROM debian:testing
-MAINTAINER Vladimir Kozlovski <inbox@vladkozlovski.com>
+MAINTAINER Vladimir Kozlovski <welcome@kozlovskilab.com>
 ENV DEBIAN_FRONTEND noninteractive
 
 ENV BUILD_DEPENDENCIES curl gnupg dirmngr
