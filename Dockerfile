@@ -13,10 +13,10 @@ ENV GPG_KEY 46095ACC8548582C1A2699A9D27D666CD88E42B4
 WORKDIR /usr/share/elasticsearch
 ENV PATH /usr/share/elasticsearch/bin:$PATH
 
-ENV ELASTICSEARCH_VERSION 5.3.2
+ENV ELASTICSEARCH_VERSION 5.3.3
 ENV ELASTICSEARCH_TARBALL="https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ELASTICSEARCH_VERSION.tar.gz" \
 	ELASTICSEARCH_TARBALL_ASC="https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ELASTICSEARCH_VERSION.tar.gz.asc" \
-	ELASTICSEARCH_TARBALL_SHA1="154e46d304c1226b52b489c9270d793c48b801ec"
+	ELASTICSEARCH_TARBALL_SHA1="30c30bfec7b43c638f3a7f5b122e6ea529a789d2"
 
 RUN set -ex; \
 	\
@@ -36,7 +36,7 @@ RUN set -ex; \
 	if [ "$ELASTICSEARCH_TARBALL_ASC" ]; then \
 		wget -O elasticsearch.tar.gz.asc "$ELASTICSEARCH_TARBALL_ASC"; \
 		export GNUPGHOME="$(mktemp -d)"; \
-		gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEY"; \
+		gpg --keyserver hkps.pool.sks-keyservers.net --recv-keys "$GPG_KEY"; \
 		gpg --batch --verify elasticsearch.tar.gz.asc elasticsearch.tar.gz; \
 		rm -r "$GNUPGHOME" elasticsearch.tar.gz.asc; \
 	fi; \
