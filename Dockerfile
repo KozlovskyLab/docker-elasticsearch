@@ -13,10 +13,10 @@ ENV GPG_KEY 46095ACC8548582C1A2699A9D27D666CD88E42B4
 WORKDIR /usr/share/elasticsearch
 ENV PATH /usr/share/elasticsearch/bin:$PATH
 
-ENV ELASTICSEARCH_VERSION 5.4.0
+ENV ELASTICSEARCH_VERSION 5.4.1
 ENV ELASTICSEARCH_TARBALL="https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ELASTICSEARCH_VERSION.tar.gz" \
 	ELASTICSEARCH_TARBALL_ASC="https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ELASTICSEARCH_VERSION.tar.gz.asc" \
-	ELASTICSEARCH_TARBALL_SHA1="880b115be755a923f25aea810e3386ccb723cc55"
+	ELASTICSEARCH_TARBALL_SHA1="08c0ea54d5c89b852f378659df1b4bd48a182640"
 
 RUN set -ex; \
 	\
@@ -38,7 +38,7 @@ RUN set -ex; \
 		export GNUPGHOME="$(mktemp -d)"; \
 		gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$GPG_KEY"; \
 		gpg --batch --verify elasticsearch.tar.gz.asc elasticsearch.tar.gz; \
-		rm -r "$GNUPGHOME" elasticsearch.tar.gz.asc; \
+		rm -rf "$GNUPGHOME" elasticsearch.tar.gz.asc; \
 	fi; \
 	\
 	tar -xf elasticsearch.tar.gz --strip-components=1; \
@@ -57,6 +57,8 @@ RUN set -ex; \
 		chown -R elasticsearch:elasticsearch "$path"; \
 	done; \
 	\
+# we shouldn't need much RAM to test --version (default is 2gb, which gets Jenkins in trouble sometimes)
+	export ES_JAVA_OPTS='-Xms32m -Xmx32m'; \
 	if [ "${ELASTICSEARCH_VERSION%%.*}" -gt 1 ]; then \
 		elasticsearch --version; \
 	else \
@@ -64,6 +66,7 @@ RUN set -ex; \
 # but in 5.x, "-v" is verbose (and "-V" is --version)
 		elasticsearch -v; \
 	fi
+
 
 COPY config ./config
 
